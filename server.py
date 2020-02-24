@@ -2,6 +2,7 @@ import socket
 import os
 
 BUF_SIZE = 1024
+try_again = False
 
 def is_accessible(root_directory, path_to_file):
     return os.path.realpath(path_to_file).startswith(os.path.realpath(root_directory))
@@ -70,7 +71,10 @@ class ServerData(object):
         self.pasv_port = None
 
     def send_command(self, args):
-        self.cmd_conn.send(str.encode(args.strip() + "\r\n"))
+        try:
+            self.cmd_conn.send(str.encode(args.strip() + "\r\n"))
+        except:
+            try_again = True
 
     def user_handler(self, args):
         self.username = args
@@ -386,6 +390,9 @@ class ServerData(object):
                 self.pass_handler(args)
             else:
                 self.unknown_handler(args)
+            if try_again:
+                try_again = False
+                self.init()
 
         self.cmd_socket.close()
         self.cmd_conn.close()
