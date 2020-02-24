@@ -2,7 +2,7 @@ import socket
 import os
 
 BUF_SIZE = 1024
-try_again = False
+should_drop = False
 
 def is_accessible(root_directory, path_to_file):
     return os.path.realpath(path_to_file).startswith(os.path.realpath(root_directory))
@@ -57,6 +57,9 @@ class ServerData(object):
         print(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"]))
         self.cmd_socket.bind((os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])))
         self.cmd_socket.listen()
+        self.init_listen()
+
+    def init_listen(self):
         self.cmd_conn, self.cmd_addr = self.cmd_socket.accept()
         self.send_command("220 FTP server ready.")
 
@@ -74,7 +77,7 @@ class ServerData(object):
         try:
             self.cmd_conn.send(str.encode(args.strip() + "\r\n"))
         except:
-            try_again = True
+            should_drop = True
 
     def user_handler(self, args):
         self.username = args
@@ -335,10 +338,10 @@ class ServerData(object):
         self.send_command("500 Unknown command.")
 
     def serve(self):
+        global try_again
         while True:
             data = self.cmd_conn.recv(BUF_SIZE)
             args = data.decode("ASCII").lower().strip().split(" ", 1)
-            print(args)
             if len(args) < 1:
                 continue
             command = args[0]
@@ -390,14 +393,14 @@ class ServerData(object):
                 self.pass_handler(args)
             else:
                 self.unknown_handler(args)
-            if try_again:
-                try_again = False
-                self.init()
+            if should_drop:
+                break
 
-        self.cmd_socket.close()
         self.cmd_conn.close()
 
 def run_server():
     server = ServerData()
     server.init()
-    server.serve()
+    while True:
+        server.serve()
+        server.init_listen()
