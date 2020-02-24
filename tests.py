@@ -20,10 +20,11 @@ def exception_handler(*args):
 
 def minimal_tests():
     ftp = FTP()
-    # exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
+    print(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"]))
+    exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
     # exception_handler(ftp.connect("localhost", 21), "220")
     # exception_handler(ftp.connect("209.250.251.55", 8011), "220")
-    exception_handler(ftp.connect("209.250.251.55", 8003), "220")
+    # exception_handler(ftp.connect("209.250.251.55", 8003), "220")
     ftp.putcmd("user ftp_test")
     ftp.getline()
     ftp.putcmd("pass p")

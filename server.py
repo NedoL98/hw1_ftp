@@ -53,6 +53,7 @@ class ServerData(object):
 
         self.path_to_users = os.environ["HW1_USERS"]
         self.cmd_socket = socket.socket()
+        print(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"]))
         self.cmd_socket.bind((os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])))
         self.cmd_socket.listen()
         self.cmd_conn, self.cmd_addr = self.cmd_socket.accept()

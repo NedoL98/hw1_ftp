@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+    hw1:
+        container_name: nedol-tests
+        environment:
+            - HW1_MODE=tests
+            - HW1_AUTH_DISABLED=0
+            - HW1_USERS=passwords_logins.tsv
+            - HW1_HOST=0.0.0.0
+            - HW1_PORT=8006
+            - HW1_DIRECTORY=/ftp_root
+            - HW1_QUIET=0
+            - HW1_TEST=minimal
+        ports:
+            - '8006:8006'
+        image: hw1
+        build: .
