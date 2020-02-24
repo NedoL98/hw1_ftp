@@ -20,7 +20,6 @@ def exception_handler(*args):
 
 def minimal_tests():
     ftp = FTP()
-    print(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"]))
     exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
     exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
     # exception_handler(ftp.connect("localhost", 21), "220")
@@ -48,10 +47,8 @@ def minimal_tests():
     data_socket.bind((os.environ["HW1_HOST"], 0))
     data_socket.listen()
     data_host, data_port = data_socket.getsockname()
-
     port_cmd = "port " + str(data_host).replace(".", ",") + "," + str(int(data_port / 256)) + "," + str(data_port % 256)
     ftp.putcmd(port_cmd)
-    print(port_cmd)
     exception_handler(ftp.getline(), "200")
     ftp.putcmd("stor test_file.txt")
     exception_handler(ftp.getline(), "150")
@@ -77,7 +74,6 @@ def minimal_tests():
     port_cmd = "port " + str(data_host).replace(".", ",") + "," + str(int(data_port / 256)) + "," + str(data_port % 256)
     ftp.putcmd(port_cmd)
     exception_handler(ftp.getline(), "200")
-
     ftp.putcmd("retr test_file.txt")
     exception_handler(ftp.getline(), "150")
 
