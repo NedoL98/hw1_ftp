@@ -1,9 +1,9 @@
 version: '3.3'
 services:
-    hw1:
+    hw1_server:
         container_name: nedol-server
         environment:
-            - HW1_MODE=tests
+            - HW1_MODE=server
             - HW1_AUTH_DISABLED=0
             - HW1_USERS=passwords_logins.tsv
             - HW1_HOST=0.0.0.0

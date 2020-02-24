@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-    hw1:
+    hw1_tests:
         container_name: nedol-tests
         environment:
             - HW1_MODE=tests
