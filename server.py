@@ -338,12 +338,14 @@ class ServerData(object):
         self.send_command("500 Unknown command.")
 
     def serve(self):
-        global try_again
+        global should_drop
         while True:
             data = self.cmd_conn.recv(BUF_SIZE)
             args = data.decode("ASCII").lower().strip().split(" ", 1)
             if len(args) < 1:
                 continue
+            if args == [""]:
+                break
             command = args[0]
             if len(args) == 1:
                 args = ""

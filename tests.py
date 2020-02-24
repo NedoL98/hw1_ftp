@@ -22,7 +22,6 @@ def minimal_tests():
     ftp = FTP()
     print(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"]))
     exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
-    ftp.quit()
     exception_handler(ftp.connect(os.environ["HW1_HOST"], int(os.environ["HW1_PORT"])), "220")
     # exception_handler(ftp.connect("localhost", 21), "220")
     # exception_handler(ftp.connect("209.250.251.55", 8011), "220")
